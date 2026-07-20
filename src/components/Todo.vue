@@ -34,8 +34,20 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
-const todos = ref(props.modelValue.length ? props.modelValue : [])
+const todos = ref(
+  props.modelValue?.length ? JSON.parse(JSON.stringify(props.modelValue)) : []
+)
 const newTodo = ref('')
+let syncing = false
+
+// 同步外部数据变更（如云端加载）到本地 ref
+watch(() => props.modelValue, (newVal) => {
+  if (newVal) {
+    syncing = true
+    todos.value = JSON.parse(JSON.stringify(newVal))
+    setTimeout(() => { syncing = false }, 0)
+  }
+})
 
 function addTodo() {
   if (!newTodo.value.trim()) return
@@ -48,7 +60,7 @@ function removeTodo(i) {
 }
 
 watch(todos, () => {
-  emit('update:modelValue', todos.value)
+  if (!syncing) emit('update:modelValue', todos.value)
 }, { deep: true })
 </script>
 

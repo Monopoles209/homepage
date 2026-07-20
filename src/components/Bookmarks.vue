@@ -44,7 +44,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
-const groups = ref(props.modelValue.length ? props.modelValue : [
+const defaultGroups = [
   {
     name: '常用',
     links: [
@@ -72,9 +72,23 @@ const groups = ref(props.modelValue.length ? props.modelValue : [
       { name: 'Gmail', url: 'https://mail.google.com' },
     ],
   },
-])
+]
+
+const groups = ref(
+  props.modelValue?.length ? JSON.parse(JSON.stringify(props.modelValue)) : JSON.parse(JSON.stringify(defaultGroups))
+)
 
 const editing = ref(false)
+let syncing = false
+
+// 同步外部数据变更（如云端加载）到本地 ref
+watch(() => props.modelValue, (newVal) => {
+  if (newVal && newVal.length > 0) {
+    syncing = true
+    groups.value = JSON.parse(JSON.stringify(newVal))
+    setTimeout(() => { syncing = false }, 0)
+  }
+})
 
 function getFavicon(url) {
   try {
@@ -107,7 +121,7 @@ function removeLink(gi, li) {
 
 // 同步到父组件
 watch(groups, () => {
-  emit('update:modelValue', groups.value)
+  if (!syncing) emit('update:modelValue', groups.value)
 }, { deep: true })
 </script>
 

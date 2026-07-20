@@ -118,10 +118,24 @@ input::placeholder {
   cursor: pointer;
   font-size: 14px;
   white-space: nowrap;
+  flex-shrink: 0;
   transition: all 0.2s;
 }
 
 .engine-btn:hover {
   background: rgba(255, 255, 255, 0.25);
+}
+
+@media (max-width: 480px) {
+  .engine-btn {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+  .search-icon {
+    font-size: 16px;
+  }
+  input {
+    font-size: 15px;
+  }
 }
 </style>
