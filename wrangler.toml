@@ -1,7 +1,11 @@
+# Cloudflare Pages 项目配置（仅本地开发用）
+# 生产部署不需要此文件，Cloudflare Pages 自动识别 functions/ 和 dist/
 name = "glass-homepage"
 compatibility_date = "2024-01-01"
 
-# 本地开发时模拟 KV
+[build]
+command = "npm run build"
+
 [[kv_namespaces]]
 binding = "HOMEPAGE_KV"
 id = "your-kv-namespace-id"
