@@ -24,11 +24,7 @@ const engines = [
   { name: 'Google', url: 'https://www.google.com/search?q=' },
   { name: 'Bing', url: 'https://www.bing.com/search?q=' },
   { name: '百度', url: 'https://www.baidu.com/s?wd=' },
-  { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
-  { name: 'Perplexity', url: 'https://www.perplexity.ai/search?q=' },
   { name: 'GitHub', url: 'https://github.com/search?q=' },
-  { name: 'YouTube', url: 'https://www.youtube.com/results?search_query=' },
-  { name: 'B站', url: 'https://search.bilibili.com/all?keyword=' },
 ]
 
 const query = ref('')
