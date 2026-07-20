@@ -1,7 +1,7 @@
 // ===== API 层：与 Cloudflare Pages Functions (KV) 交互 =====
 // 开发环境用 localStorage 降级，生产环境用 /api/data
 
-const API_BASE = '/api'
+const API_BASE = import.meta.env.VITE_API_BASE || '/api'
 
 // 尝试从云端拉取数据，失败则用 localStorage
 export async function fetchData() {

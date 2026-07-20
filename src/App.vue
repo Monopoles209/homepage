@@ -40,24 +40,48 @@ const data = ref({
 const bgUrl = ref('')
 const bgCopyright = ref('')
 
-onMounted(async () => {
-  // 1. 拉取云端数据
-  const cloudData = await fetchData()
-  if (cloudData) {
-    if (cloudData.bookmarks?.length) data.value.bookmarks = cloudData.bookmarks
-    if (cloudData.todos?.length) data.value.todos = cloudData.todos
+onMounted(() => {
+  // 1. 先从 localStorage 立即渲染（秒开）
+  const local = localStorage.getItem('homepage_data')
+  if (local) {
+    try {
+      const d = JSON.parse(local)
+      if (d.bookmarks?.length) data.value.bookmarks = d.bookmarks
+      if (d.todos?.length) data.value.todos = d.todos
+    } catch {}
   }
 
-  // 2. 拉取 Bing 壁纸
-  const wallpaper = await fetchBingWallpaper()
-  if (wallpaper.url) {
-    bgUrl.value = wallpaper.url
-    bgCopyright.value = wallpaper.copyright
+  // 2. 壁纸缓存优先（秒出背景）
+  const cachedBg = localStorage.getItem('bing_wallpaper')
+  if (cachedBg) {
+    try {
+      const bg = JSON.parse(cachedBg)
+      bgUrl.value = bg.url
+      bgCopyright.value = bg.copyright
+    } catch {}
   } else {
-    // 降级：渐变背景
-    bgUrl.value = ''
     document.getElementById('bg-layer').style.background = 'linear-gradient(135deg, #667eea, #764ba2)'
   }
+
+  // 3. 后台异步拉取云端数据（不阻塞渲染）
+  fetchData().then(cloudData => {
+    if (cloudData) {
+      if (cloudData.bookmarks?.length) data.value.bookmarks = cloudData.bookmarks
+      if (cloudData.todos?.length) data.value.todos = cloudData.todos
+    }
+  })
+
+  // 4. 后台异步拉取最新壁纸
+  fetchBingWallpaper().then(wallpaper => {
+    if (wallpaper.url) {
+      bgUrl.value = wallpaper.url
+      bgCopyright.value = wallpaper.copyright
+      localStorage.setItem('bing_wallpaper', JSON.stringify({
+        url: wallpaper.url,
+        copyright: wallpaper.copyright,
+      }))
+    }
+  })
 })
 
 // 3. 数据变化自动同步到云端
