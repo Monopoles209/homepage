@@ -2,6 +2,16 @@
 // GET /api/bing → { url, copyright }
 // 解决跨域问题，并缓存到 KV 减少请求
 
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+}
+
+export async function onRequestOptions() {
+  return new Response(null, { headers: CORS })
+}
+
 export async function onRequestGet(context) {
   const { env } = context
 
@@ -10,7 +20,7 @@ export async function onRequestGet(context) {
     const cached = await env.HOMEPAGE_KV.get('bing_wallpaper', 'json')
     if (cached && cached.date === new Date().toISOString().slice(0, 10)) {
       return new Response(JSON.stringify(cached), {
-        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600' },
+        headers: { ...CORS, 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600' },
       })
     }
   } catch {}
@@ -32,12 +42,12 @@ export async function onRequestGet(context) {
     } catch {}
 
     return new Response(JSON.stringify(result), {
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600' },
+      headers: { ...CORS, 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600' },
     })
   } catch (err) {
     return new Response(JSON.stringify({ url: '', copyright: '' }), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { ...CORS, 'Content-Type': 'application/json' },
     })
   }
 }
