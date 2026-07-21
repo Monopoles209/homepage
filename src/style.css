@@ -74,7 +74,15 @@ html, body, #app {
 .fade-in { animation: fadeIn 0.5s ease both; }
 
 /* ===== 响应式 ===== */
-@media (max-width: 640px) {
-  #app { padding: 3vh 12px 2vh; }
-  .main-container { gap: 20px; }
+@media (max-width: 768px) {
+  #app { padding: 3vh 16px 2vh; }
+  .main-container { gap: 22px; }
+}
+
+@media (max-width: 480px) {
+  #app { padding: 2vh 10px 2vh; }
+  .main-container { gap: 16px; }
+  .glass {
+    border-radius: 16px;
+  }
 }

@@ -266,4 +266,25 @@ h2 {
   opacity: 0.6;
 }
 .del-btn:hover { opacity: 1; }
+
+/* 移动端：更小的书签卡片 */
+@media (max-width: 480px) {
+  .links {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 6px;
+  }
+  .link-card {
+    padding: 8px 4px;
+  }
+  .favicon {
+    width: 22px;
+    height: 22px;
+  }
+  .link-name {
+    font-size: 11px;
+  }
+  .bookmarks-section {
+    padding: 14px 16px;
+  }
+}
 </style>

@@ -104,9 +104,18 @@ watch(data, () => {
   margin-top: 4px;
 }
 
+/* 移动端 / 扩展弹窗适配 */
 @media (max-width: 768px) {
   .bottom-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* Android Edge 弹窗场景：窄屏单列 + 紧凑间距 */
+@media (max-width: 480px) {
+  .bottom-grid {
+    gap: 12px;
   }
 }
 </style>

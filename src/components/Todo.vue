@@ -179,4 +179,14 @@ h2 {
   font-size: 14px;
   padding: 16px;
 }
+
+/* 移动端 */
+@media (max-width: 480px) {
+  .todo-section {
+    padding: 14px 16px;
+  }
+  .todo-list {
+    max-height: 180px;
+  }
+}
 </style>

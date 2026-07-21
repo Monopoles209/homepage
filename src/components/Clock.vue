@@ -71,7 +71,13 @@ onUnmounted(() => {
 }
 
 @media (max-width: 640px) {
-  .time { font-size: 44px; }
+  .time { font-size: 44px; letter-spacing: 2px; }
   .greeting { font-size: 15px; }
+  .date { font-size: 13px; }
+}
+
+@media (max-width: 400px) {
+  .time { font-size: 36px; }
+  .greeting { font-size: 14px; }
 }
 </style>

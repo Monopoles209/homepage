@@ -40,7 +40,8 @@ function cycleEngine() {
 
 function search() {
   if (!query.value.trim()) return
-  window.open(currentEngine.value.url + encodeURIComponent(query.value.trim()), '_self')
+  // _blank 兼容桌面新标签页 (newtab override) 和 Android popup 两种场景
+  window.open(currentEngine.value.url + encodeURIComponent(query.value.trim()), '_blank')
 }
 
 // 快捷键：/ 聚焦搜索框
