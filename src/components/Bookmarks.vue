@@ -93,7 +93,8 @@ watch(() => props.modelValue, (newVal) => {
 function getFavicon(url) {
   try {
     const domain = new URL(url).hostname
-    return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`
+    // 通过本站 Functions 代理，国内外都能访问
+    return `/api/favicon?domain=${domain}&size=64`
   } catch {
     return ''
   }
